@@ -2,6 +2,7 @@ function validateLineup(lineup) {
   let validSalary = true
   let validPositions = true
   let validTeamId = true
+  let validGameId = true
 
   // add up all salaries and if the sum is greater than 45000 than return false
   let salary = lineup.reduce((acc, salaryTotal) => acc + salaryTotal.salary, 0)
@@ -12,7 +13,6 @@ function validateLineup(lineup) {
   //   console.log(salary)
 
   let isNumberOfPlayersMoreThan2 = false
-
   let isNumberOfPlayersMoreThan3 = false
 
   // create new object and store teamId as the key and the number of players on the team as the value according to below condition
@@ -32,12 +32,34 @@ function validateLineup(lineup) {
     return numberOfPlayersByTeamId
   }, {})
 
-  // check the new object to determine if any team exists more than twice
+  // check the new object to determine if any team contains more than two players 
   if (isNumberOfPlayersMoreThan2) {
     validTeamId = false
   }
+  // create new object and store gameId as the key and the number of players for that game as the value according to below condition
 
-  return validSalary && validPositions && validTeamId
+  lineup.reduce((numberOfPlayersByGameId, player) => {
+    if (numberOfPlayersByGameId[player.gameId] === undefined) {
+      numberOfPlayersByGameId[player.gameId] = 1
+    } else {
+      numberOfPlayersByGameId[player.gameId] += 1
+    }
+
+    if (numberOfPlayersByGameId[player.gameId] > 3) {
+      isNumberOfPlayersMoreThan3 = true
+    }
+    // eslint-disable-next-line no-console
+    // console.log(numberOfPlayersByGameId)
+
+    return numberOfPlayersByGameId
+  }, {})
+
+  // check the new object to determine if any game has more than 3 players
+  if (isNumberOfPlayersMoreThan3) {
+    validTeamId = false
+  }
+
+  return validSalary && validPositions && validTeamId && validGameId
 }
 
 module.exports = validateLineup
