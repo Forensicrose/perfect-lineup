@@ -58,8 +58,6 @@ function validateLineup(lineup) {
     validTeamId = false
   }
 
-
-
   let checkIfExactly3 = ['OF']
   let checkIfExactly1 = ['P', 'C', '1B', '2B', '3B', 'SS']
   let failed = false
@@ -86,6 +84,17 @@ function validateLineup(lineup) {
     }
   }
   if (failed) {
+    validPositions = false
+  }
+
+
+  let isMissingPosition = false
+
+  // check to determine if a position is missing according to the following condition and if so, return false
+  if (Object.keys(numberOfPlayersByPosition).length < 7) {
+    isMissingPosition = true
+  }
+  if (isMissingPosition) {
     validPositions = false
   }
 
