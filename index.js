@@ -4,18 +4,16 @@ function validateLineup(lineup) {
   let validGameId = true
   let validPositions = true
 
-  // add up all salaries and if the sum is greater than 45000 than return false
+  // add up all salaries and if the sum is greater than 45000 return false
   let salary = lineup.reduce((acc, salaryTotal) => acc + salaryTotal.salary, 0)
 
   if (salary > 45000) validSalary = false
 
-  // eslint-disable-next-line no-console
-  //   console.log(salary)
 
   let isNumberOfPlayersMoreThan2 = false
   let isNumberOfPlayersMoreThan3 = false
 
-  // create new object and store teamId as the key and the number of players on the team as the value according to below condition. 
+  // create new object and store teamId as the key and the number of players on the team as the value according to below condition:
   lineup.reduce((numberOfPlayersByTeamId, player) => {
     if (numberOfPlayersByTeamId[player.teamId] === undefined) {
       numberOfPlayersByTeamId[player.teamId] = 1
@@ -26,8 +24,6 @@ function validateLineup(lineup) {
     if (numberOfPlayersByTeamId[player.teamId] > 2) {
       isNumberOfPlayersMoreThan2 = true
     }
-    // eslint-disable-next-line no-console
-    // console.log(numberOfPlayersByTeamId)
 
     return numberOfPlayersByTeamId
   }, {})
@@ -36,7 +32,7 @@ function validateLineup(lineup) {
   if (isNumberOfPlayersMoreThan2) {
     validTeamId = false
   }
-  // create new object and store gameId as the key and the number of players for that game as the value according to below condition. 
+  // create new object and store gameId as the key and the number of players for that game as the value according to below condition: 
   lineup.reduce((numberOfPlayersByGameId, player) => {
     if (numberOfPlayersByGameId[player.gameId] === undefined) {
       numberOfPlayersByGameId[player.gameId] = 1
@@ -47,8 +43,6 @@ function validateLineup(lineup) {
     if (numberOfPlayersByGameId[player.gameId] > 3) {
       isNumberOfPlayersMoreThan3 = true
     }
-    // eslint-disable-next-line no-console
-    // console.log(numberOfPlayersByGameId)
 
     return numberOfPlayersByGameId
   }, {})
@@ -62,7 +56,7 @@ function validateLineup(lineup) {
   let checkIfExactly1 = ['P', 'C', '1B', '2B', '3B', 'SS']
   let failed = false
 
-  // check to determine if the exact number of players at each position is correct by creating a new object with the positions as the keys and the number of players at each position as the value according to the condition below. 
+  // check to determine if the exact number of players at each position is correct by creating a new object with the positions as the keys and the number of players at each position as the value according to the condition below:
   let numberOfPlayersByPosition = lineup.reduce((byPositionId, player) => {
     if (byPositionId[player.position] === undefined) {
       byPositionId[player.position] = 1
@@ -73,7 +67,7 @@ function validateLineup(lineup) {
     return byPositionId
   }, {})
 
-  // loop through through the new object and return false is the number of players at each position is incorrect. 
+  // loop through the new object and return false if the number of players at each position is incorrect. 
   for (const position in numberOfPlayersByPosition) {
     const playerByPosition = numberOfPlayersByPosition[position]
 
@@ -90,7 +84,7 @@ function validateLineup(lineup) {
 
   let isMissingPosition = false
 
-  // check to determine if a position is missing according to the following condition and if so, return false
+  // check to determine if a position is missing according to the following condition and if so, return false. There are 7 unique positions. 
   if (Object.keys(numberOfPlayersByPosition).length < 7) {
     isMissingPosition = true
   }
